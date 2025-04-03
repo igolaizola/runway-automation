@@ -18,7 +18,9 @@ Runway Automation enables you to automate AI video generation on [RunwayML](http
   If you supply image URLs (via the `images` parameter) or a Google Drive folder URL (via the `googleDriveFolder` parameter), videos will be generated using your images. If you also provide text prompts, they will be used as additional input. When there are fewer prompts than images, the prompts will be repeated (looped) to ensure every image is paired with a prompt.
 
 - **Text-to-Video:**  
-  If no images or Google Drive folder is provided, the generation will be based solely on the text prompts you supply.
+  If no images or Google Drive folder is provided, the generation will be based solely on the text prompts you supply. **Note:** When using the `gen3-alpha-turbo` or `gen4` models, direct text-to-video conversion is not supported. In these cases, if no image is provided, your prompt will first be used to generate an image using "RunwayML Frames", and then that image will be converted into a video. You can specify different prompts for the image generation and the video conversion by separating them with a vertical bar (`|`). For example:  
+  `"A bomb with a time countdown | The bomb explodes"`  
+  will use `"A bomb with a time countdown"` to generate the image, and `"The bomb explodes"` as the video prompt.
 
 ## 🔑 Prerequisites
 
@@ -56,7 +58,7 @@ Before using this actor, you need:
 | `images`             | Array   | _(Optional)_ List of image URLs for image-to-video conversion. You can also use a Google Drive folder URL instead.                                                                                              | -                                       |
 | `googleDriveFolder`  | String  | _(Optional)_ Google Drive folder URL containing images for video generation. The folder must be publicly shared.                                                                                                | -                                       |
 | `mode`               | Select  | Generation mode: "explore" (slow, doesn't consume credits) or "credits" (fast, consumes credits)                                                                                                                | explore                                 |
-| `model`              | Select  | Model to generate videos. Options: <br> • `gen3-alpha` – Text-to-video only<br>• `gen3-alpha-turbo` – Supports vertical videos<br>• `gen4` – New model with expanded aspect ratios (e.g., 1:1, 4:3, 3:4, 21:9)  | gen4                                    |
+| `model`              | Select  | Model to generate videos. Options: <br>• `gen3-alpha` – Text-to-video only<br>• `gen3-alpha-turbo` – Supports vertical videos <br>• `gen4` – New model with expanded aspect ratios (e.g., 1:1, 4:3, 3:4, 21:9)  | gen4                                    |
 | `aspectRatio`        | Select  | Aspect ratio of the generated video. Options: <br>• "16:9"<br>• "9:16" (only `gen4` or `gen3-alpha-turbo`)<br>• "1:1" (only `gen4`)<br>• "4:3" (only `gen4`)<br>• "3:4" (only `gen4`)<br>• "21:9" (only `gen4`) | 16:9                                    |
 | `seconds`            | Select  | Duration of the generated video. Options: "5s" or "10s"                                                                                                                                                         | 10s                                     |
 | `concurrency`        | Integer | Number of concurrent jobs.                                                                                                                                                                                      | 1                                       |
